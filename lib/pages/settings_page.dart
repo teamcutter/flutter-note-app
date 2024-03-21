@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:notes/theme/theme_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -26,9 +27,9 @@ class SettingsPage extends StatelessWidget {
           children: [
             Text(
               'Dark Mode',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Theme.of(context).colorScheme.inversePrimary,
+              style: GoogleFonts.archivo(
+                fontSize: 16,
+                color: Theme.of(context).colorScheme.inversePrimary
               ),
             ),
             Switch(

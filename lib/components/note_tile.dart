@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:jiffy/jiffy.dart';
 import 'package:notes/models/note.dart';
 
-class NoteTile extends StatelessWidget {
+
+class NoteTile extends StatefulWidget {
   final Note note;
   final void Function(Note) updateNote;
   final void Function(int) deleteNote;
@@ -13,6 +15,12 @@ class NoteTile extends StatelessWidget {
   });
   
   @override
+  State<StatefulWidget> createState() => _NoteTileState();
+}
+
+class _NoteTileState extends State<NoteTile> {
+
+  @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
@@ -21,21 +29,12 @@ class NoteTile extends StatelessWidget {
       ),
       margin: const EdgeInsets.only(top: 10, left: 25, right: 25),
       child: ListTile(
-        title: Text(note.title),
-        trailing: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            IconButton(
-              onPressed: () => updateNote(note), 
-              icon: const Icon(Icons.edit),
-            ),
-            IconButton(
-              onPressed: () => deleteNote(note.id), 
-              icon: const Icon(Icons.delete)
-            ),
-          ],
-        ),
+        title: Text(widget.note.title),
+        subtitle: Text('Edited ${Jiffy.parseFromDateTime(widget.note.lastEdit).MMMd}'),
+        onTap: () => widget.updateNote(widget.note),
+        onLongPress: () => widget.deleteNote(widget.note.id),
       ),
     );
   }
+
 }

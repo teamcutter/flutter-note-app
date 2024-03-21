@@ -40,6 +40,7 @@ dependencies:
   path_provider: ^2.1.2
   provider: ^6.1.2
   google_fonts: ^6.2.1
+  jiffy: ^6.2.2
 
 dev_dependencies:
   flutter_test:
