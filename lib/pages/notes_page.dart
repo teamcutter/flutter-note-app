@@ -84,19 +84,16 @@ class _NotesPageState extends State<NotesPage> {
         child: const Icon(Icons.add),
       ),
       drawer: const CustomDrawer(),
-      body: 
-          Expanded(
-            child: ListView.builder(
-            itemCount: currentNotes.length,
-            itemBuilder: (context, index) { 
-              final note = currentNotes[index];
-              return NoteTile(
-                note: note, 
-                updateNote: updateNote, 
-                deleteNote: deleteNote
-            );
-          },
-        ),
+      body: ListView.builder(
+          itemCount: currentNotes.length,
+          itemBuilder: (context, index) { 
+            final note = currentNotes[index];
+            return NoteTile(
+              note: note, 
+              updateNote: updateNote, 
+              deleteNote: deleteNote
+          );
+        },
       ),
     );
   }
