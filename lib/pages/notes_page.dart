@@ -16,9 +16,7 @@ class NotesPage extends StatefulWidget {
 }
 
 class _NotesPageState extends State<NotesPage> {
-
-  final textController = TextEditingController();
-
+  
   @override
   void initState() {
     super.initState();

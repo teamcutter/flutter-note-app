@@ -37,7 +37,7 @@ class _NotesPageState extends State<UpdateNotePage> {
           children: [
             // Title
             Padding(
-              padding: const EdgeInsets.only(left: 25),
+              padding: const EdgeInsets.only(left: 25, right: 25),
               child: TextField(
                 maxLines: null,
                 style: GoogleFonts.archivo(
