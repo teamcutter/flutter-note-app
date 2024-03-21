@@ -29,7 +29,9 @@ class _NoteTileState extends State<NoteTile> {
       ),
       margin: const EdgeInsets.only(top: 10, left: 25, right: 25),
       child: ListTile(
-        title: Text(widget.note.title),
+        title: widget.note.title.length > 20
+        ? Text("${widget.note.title.substring(0, 20)}...")
+        : Text(widget.note.title),
         subtitle: Text('Edited ${Jiffy.parseFromDateTime(widget.note.lastEdit).MMMd}'),
         onTap: () => widget.updateNote(widget.note),
         onLongPress: () => widget.deleteNote(widget.note.id),
