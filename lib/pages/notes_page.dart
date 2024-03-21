@@ -4,7 +4,8 @@ import 'package:notes/components/drawer.dart';
 import 'package:notes/components/note_tile.dart';
 import 'package:notes/models/note.dart';
 import 'package:notes/models/note_database.dart';
-import 'package:notes/pages/note_page.dart';
+import 'package:notes/pages/add_note_page.dart';
+import 'package:notes/pages/update_note_page.dart';
 import 'package:provider/provider.dart';
 
 class NotesPage extends StatefulWidget {
@@ -28,7 +29,12 @@ class _NotesPageState extends State<NotesPage> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => NotePage(note: Note())
+        builder: (context) => AddNotePage(
+          note: Note()
+          ..title = 'Title'
+          ..text = 'Your note here.'
+          ..lastEdit = DateTime.now()
+        ),
       ),
     );
   }
@@ -41,7 +47,7 @@ class _NotesPageState extends State<NotesPage> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => NotePage(note: note)
+        builder: (context) => UpdateNotePage(note: note)
       ),
     );
   }

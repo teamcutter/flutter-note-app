@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:jiffy/jiffy.dart';
 import 'package:notes/models/note.dart';
+
 
 class NoteTile extends StatelessWidget {
   final Note note;
@@ -22,19 +24,9 @@ class NoteTile extends StatelessWidget {
       margin: const EdgeInsets.only(top: 10, left: 25, right: 25),
       child: ListTile(
         title: Text(note.title),
-        trailing: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            IconButton(
-              onPressed: () => updateNote(note), 
-              icon: const Icon(Icons.edit),
-            ),
-            IconButton(
-              onPressed: () => deleteNote(note.id), 
-              icon: const Icon(Icons.delete)
-            ),
-          ],
-        ),
+        trailing: Text('Edited ${Jiffy.parseFromDateTime(note.lastEdit).MMMd}'),
+        onTap: () => updateNote(note),
+        onLongPress: () => deleteNote(note.id),
       ),
     );
   }
