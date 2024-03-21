@@ -17,9 +17,19 @@ const NoteSchema = CollectionSchema(
   name: r'Note',
   id: 6284318083599466921,
   properties: {
-    r'text': PropertySchema(
+    r'lastEdit': PropertySchema(
       id: 0,
+      name: r'lastEdit',
+      type: IsarType.dateTime,
+    ),
+    r'text': PropertySchema(
+      id: 1,
       name: r'text',
+      type: IsarType.string,
+    ),
+    r'title': PropertySchema(
+      id: 2,
+      name: r'title',
       type: IsarType.string,
     )
   },
@@ -44,6 +54,7 @@ int _noteEstimateSize(
 ) {
   var bytesCount = offsets.last;
   bytesCount += 3 + object.text.length * 3;
+  bytesCount += 3 + object.title.length * 3;
   return bytesCount;
 }
 
@@ -53,7 +64,9 @@ void _noteSerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeString(offsets[0], object.text);
+  writer.writeDateTime(offsets[0], object.lastEdit);
+  writer.writeString(offsets[1], object.text);
+  writer.writeString(offsets[2], object.title);
 }
 
 Note _noteDeserialize(
@@ -64,7 +77,9 @@ Note _noteDeserialize(
 ) {
   final object = Note();
   object.id = id;
-  object.text = reader.readString(offsets[0]);
+  object.lastEdit = reader.readDateTime(offsets[0]);
+  object.text = reader.readString(offsets[1]);
+  object.title = reader.readString(offsets[2]);
   return object;
 }
 
@@ -76,6 +91,10 @@ P _noteDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
+      return (reader.readDateTime(offset)) as P;
+    case 1:
+      return (reader.readString(offset)) as P;
+    case 2:
       return (reader.readString(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -222,6 +241,59 @@ extension NoteQueryFilter on QueryBuilder<Note, Note, QFilterCondition> {
     });
   }
 
+  QueryBuilder<Note, Note, QAfterFilterCondition> lastEditEqualTo(
+      DateTime value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'lastEdit',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Note, Note, QAfterFilterCondition> lastEditGreaterThan(
+    DateTime value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'lastEdit',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Note, Note, QAfterFilterCondition> lastEditLessThan(
+    DateTime value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'lastEdit',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Note, Note, QAfterFilterCondition> lastEditBetween(
+    DateTime lower,
+    DateTime upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'lastEdit',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
   QueryBuilder<Note, Note, QAfterFilterCondition> textEqualTo(
     String value, {
     bool caseSensitive = true,
@@ -349,6 +421,134 @@ extension NoteQueryFilter on QueryBuilder<Note, Note, QFilterCondition> {
       ));
     });
   }
+
+  QueryBuilder<Note, Note, QAfterFilterCondition> titleEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'title',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Note, Note, QAfterFilterCondition> titleGreaterThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'title',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Note, Note, QAfterFilterCondition> titleLessThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'title',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Note, Note, QAfterFilterCondition> titleBetween(
+    String lower,
+    String upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'title',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Note, Note, QAfterFilterCondition> titleStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'title',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Note, Note, QAfterFilterCondition> titleEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'title',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Note, Note, QAfterFilterCondition> titleContains(String value,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'title',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Note, Note, QAfterFilterCondition> titleMatches(String pattern,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'title',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Note, Note, QAfterFilterCondition> titleIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'title',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<Note, Note, QAfterFilterCondition> titleIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'title',
+        value: '',
+      ));
+    });
+  }
 }
 
 extension NoteQueryObject on QueryBuilder<Note, Note, QFilterCondition> {}
@@ -356,6 +556,18 @@ extension NoteQueryObject on QueryBuilder<Note, Note, QFilterCondition> {}
 extension NoteQueryLinks on QueryBuilder<Note, Note, QFilterCondition> {}
 
 extension NoteQuerySortBy on QueryBuilder<Note, Note, QSortBy> {
+  QueryBuilder<Note, Note, QAfterSortBy> sortByLastEdit() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'lastEdit', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Note, Note, QAfterSortBy> sortByLastEditDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'lastEdit', Sort.desc);
+    });
+  }
+
   QueryBuilder<Note, Note, QAfterSortBy> sortByText() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'text', Sort.asc);
@@ -365,6 +577,18 @@ extension NoteQuerySortBy on QueryBuilder<Note, Note, QSortBy> {
   QueryBuilder<Note, Note, QAfterSortBy> sortByTextDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'text', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Note, Note, QAfterSortBy> sortByTitle() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'title', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Note, Note, QAfterSortBy> sortByTitleDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'title', Sort.desc);
     });
   }
 }
@@ -382,6 +606,18 @@ extension NoteQuerySortThenBy on QueryBuilder<Note, Note, QSortThenBy> {
     });
   }
 
+  QueryBuilder<Note, Note, QAfterSortBy> thenByLastEdit() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'lastEdit', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Note, Note, QAfterSortBy> thenByLastEditDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'lastEdit', Sort.desc);
+    });
+  }
+
   QueryBuilder<Note, Note, QAfterSortBy> thenByText() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'text', Sort.asc);
@@ -393,13 +629,38 @@ extension NoteQuerySortThenBy on QueryBuilder<Note, Note, QSortThenBy> {
       return query.addSortBy(r'text', Sort.desc);
     });
   }
+
+  QueryBuilder<Note, Note, QAfterSortBy> thenByTitle() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'title', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Note, Note, QAfterSortBy> thenByTitleDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'title', Sort.desc);
+    });
+  }
 }
 
 extension NoteQueryWhereDistinct on QueryBuilder<Note, Note, QDistinct> {
+  QueryBuilder<Note, Note, QDistinct> distinctByLastEdit() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'lastEdit');
+    });
+  }
+
   QueryBuilder<Note, Note, QDistinct> distinctByText(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'text', caseSensitive: caseSensitive);
+    });
+  }
+
+  QueryBuilder<Note, Note, QDistinct> distinctByTitle(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'title', caseSensitive: caseSensitive);
     });
   }
 }
@@ -411,9 +672,21 @@ extension NoteQueryProperty on QueryBuilder<Note, Note, QQueryProperty> {
     });
   }
 
+  QueryBuilder<Note, DateTime, QQueryOperations> lastEditProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'lastEdit');
+    });
+  }
+
   QueryBuilder<Note, String, QQueryOperations> textProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'text');
+    });
+  }
+
+  QueryBuilder<Note, String, QQueryOperations> titleProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'title');
     });
   }
 }
