@@ -62,6 +62,7 @@ class _NotesPageState extends State<NotesPage> {
     final noteDatabase = context.watch<NoteDatabase>();
 
     List<Note> currentNotes = noteDatabase.currentNotes;
+    currentNotes.sort((a, b) => b.lastEdit.compareTo(a.lastEdit));
 
     return Scaffold(
       appBar: AppBar(
