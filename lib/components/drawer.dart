@@ -17,7 +17,7 @@ class CustomDrawer extends StatelessWidget {
               padding: const EdgeInsets.only(top: 30),
               child: Text(
               'Menu',
-                style: GoogleFonts.dmSerifText(
+                style: GoogleFonts.archivo(
                 fontSize: 48,
                 color: Theme.of(context).colorScheme.inversePrimary,
                 ),
@@ -35,7 +35,7 @@ class CustomDrawer extends StatelessWidget {
             onTap: () {
               Navigator.pop(context);
               Navigator.push(context, MaterialPageRoute(
-                builder: (context) => SettingsPage(),
+                builder: (context) => const SettingsPage(),
                 )
               );
             },

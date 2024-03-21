@@ -41,7 +41,7 @@ class _NotesPageState extends State<UpdateNotePage> {
               padding: const EdgeInsets.only(left: 25),
               child: TextField(
                 maxLines: null,
-                style: GoogleFonts.dmSerifText(
+                style: GoogleFonts.archivo(
                   fontSize: 36,
                   color: Theme.of(context).colorScheme.inversePrimary
                 ),
@@ -58,7 +58,7 @@ class _NotesPageState extends State<UpdateNotePage> {
                 padding: const EdgeInsets.only(top: 8, left: 25, right: 25),
                 child: TextField(
                     maxLines: null,
-                    style: GoogleFonts.dmSerifText(
+                    style: GoogleFonts.archivo(
                     fontSize: 16,
                     color: Theme.of(context).colorScheme.inversePrimary
                   ),

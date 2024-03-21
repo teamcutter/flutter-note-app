@@ -68,6 +68,13 @@ class _NotesPageState extends State<NotesPage> {
         elevation: 0,
         backgroundColor: Colors.transparent,
         foregroundColor: Theme.of(context).colorScheme.inversePrimary,
+        title: Text(
+          'Notes',
+          style: GoogleFonts.archivo(
+            fontSize: 30,
+            color: Theme.of(context).colorScheme.inversePrimary
+          ),
+        ),
       ),
       backgroundColor: Theme.of(context).colorScheme.background,
       floatingActionButton: FloatingActionButton(
@@ -76,33 +83,19 @@ class _NotesPageState extends State<NotesPage> {
         child: const Icon(Icons.add),
       ),
       drawer: const CustomDrawer(),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(left: 25.0),
-            child: Text(
-              'Notes', 
-              style: GoogleFonts.dmSerifText(
-                fontSize: 48,
-                color: Theme.of(context).colorScheme.inversePrimary
-              ),
-            ),
-          ),
+      body: 
           Expanded(
             child: ListView.builder(
-              itemCount: currentNotes.length,
-              itemBuilder: (context, index) { 
-                final note = currentNotes[index];
-                return NoteTile(
-                  note: note, 
-                  updateNote: updateNote, 
-                  deleteNote: deleteNote
-                );
-              },
-            ),
-          ),
-        ],
+            itemCount: currentNotes.length,
+            itemBuilder: (context, index) { 
+              final note = currentNotes[index];
+              return NoteTile(
+                note: note, 
+                updateNote: updateNote, 
+                deleteNote: deleteNote
+            );
+          },
+        ),
       ),
     );
   }

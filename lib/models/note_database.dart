@@ -28,6 +28,7 @@ class NoteDatabase extends ChangeNotifier {
 
   Future<void> fetchNotes() async {
     List<Note> fetchedNotes = await isar.notes.where().findAll();
+    fetchedNotes.sort((a, b) => b.lastEdit.compareTo(a.lastEdit));
     currentNotes.clear();
     currentNotes.addAll(fetchedNotes);
     notifyListeners();
