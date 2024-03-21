@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:notes/components/drawer.dart';
+import 'package:notes/components/note_tile.dart';
 import 'package:notes/models/note.dart';
 import 'package:notes/models/note_database.dart';
 import 'package:provider/provider.dart';
@@ -88,9 +89,10 @@ class _NotesPageState extends State<NotesPage> {
       backgroundColor: Theme.of(context).colorScheme.background,
       floatingActionButton: FloatingActionButton(
         onPressed: createNote,
+        foregroundColor: Theme.of(context).colorScheme.inversePrimary,
         child: const Icon(Icons.add),
       ),
-      drawer: CustomDrawer(),
+      drawer: const CustomDrawer(),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -109,24 +111,12 @@ class _NotesPageState extends State<NotesPage> {
               itemCount: currentNotes.length,
               itemBuilder: (context, index) { 
                 final note = currentNotes[index];
-            
-                return ListTile(
-                  title: Text(note.text),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      IconButton(
-                        onPressed: () => updateNote(note),
-                        icon: const Icon(Icons.edit)
-                      ),
-                      IconButton(
-                        onPressed: () => deleteNote(note.id), 
-                        icon: const Icon(Icons.delete)
-                      ),
-                    ],
-                  ),
+                return NoteTile(
+                  note: note, 
+                  updateNote: updateNote, 
+                  deleteNote: deleteNote
                 );
-              }
+              },
             ),
           ),
         ],
