@@ -36,5 +36,4 @@ class _NoteTileState extends State<NoteTile> {
       ),
     );
   }
-
 }
