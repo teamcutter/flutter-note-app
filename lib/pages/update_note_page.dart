@@ -54,25 +54,21 @@ class _NotesPageState extends State<UpdateNotePage> {
             ),
             Expanded(
               // Body text
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 8, left: 25, right: 25),
-                    child: TextField(
-                      maxLines: null,
-                      style: GoogleFonts.dmSerifText(
-                      fontSize: 16,
-                      color: Theme.of(context).colorScheme.inversePrimary
-                      ),
-                      decoration: const InputDecoration.collapsed(
-                      hintText: ''
-                      ),
-                      controller: _textController..text = widget.note.text,
-                      cursorColor: Theme.of(context).colorScheme.inversePrimary,
-                    ),
+              child: Padding(
+                padding: const EdgeInsets.only(top: 8, left: 25, right: 25),
+                child: TextField(
+                    maxLines: null,
+                    style: GoogleFonts.dmSerifText(
+                    fontSize: 16,
+                    color: Theme.of(context).colorScheme.inversePrimary
                   ),
-                ],
-              )
+                    decoration: const InputDecoration.collapsed(
+                    hintText: ''
+                  ),
+                  controller: _textController..text = widget.note.text,
+                  cursorColor: Theme.of(context).colorScheme.inversePrimary,
+                ),
+              ),
             )
           ],
         ),

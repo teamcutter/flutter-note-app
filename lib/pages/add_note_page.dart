@@ -36,38 +36,35 @@ class _NotesPageState extends State<AddNotePage> {
               padding: const EdgeInsets.only(left: 25),
               child: TextField(
                 maxLines: null,
+                autofocus: true,
                 style: GoogleFonts.dmSerifText(
                   fontSize: 36,
                   color: Theme.of(context).colorScheme.inversePrimary
                 ),
                 decoration: InputDecoration.collapsed(
-                  hintText: widget.note.text
+                  hintText: widget.note.title
                 ),
                 controller: _titleController,
                 cursorColor: Theme.of(context).colorScheme.inversePrimary,
               ),
             ),
             Expanded(
-              child: Column(
-                children: [
-                  // Body text
-                  Padding(
-                    padding: const EdgeInsets.only(top: 8, left: 25, right: 25),
-                    child: TextField(
-                      maxLines: null,
-                      style: GoogleFonts.dmSerifText(
-                      fontSize: 16,
-                      color: Theme.of(context).colorScheme.inversePrimary
-                      ),
-                      decoration: InputDecoration.collapsed(
-                      hintText: widget.note.text
-                      ),
-                      controller: _textController,
-                      cursorColor: Theme.of(context).colorScheme.inversePrimary,
-                    ),
+              // Body text
+              child: Padding(
+                padding: const EdgeInsets.only(top: 8, left: 25, right: 25),
+                child: TextField(
+                    maxLines: null,
+                    style: GoogleFonts.dmSerifText(
+                    fontSize: 16,
+                    color: Theme.of(context).colorScheme.inversePrimary
                   ),
-                ],
-              )
+                    decoration: InputDecoration.collapsed(
+                    hintText: widget.note.text
+                  ),
+                  controller: _textController,
+                  cursorColor: Theme.of(context).colorScheme.inversePrimary,
+                ),
+              ),
             )
           ],
         ),
