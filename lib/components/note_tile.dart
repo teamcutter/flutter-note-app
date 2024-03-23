@@ -5,13 +5,17 @@ import 'package:notes/models/note.dart';
 
 class NoteTile extends StatefulWidget {
   final Note note;
-  final void Function(Note) updateNote;
   final void Function(int) deleteNote;
-  const NoteTile({
+  final void Function() onLongPress;
+  final void Function() onTap;
+  bool isSelected;
+  NoteTile({
     super.key, 
     required this.note, 
-    required this.updateNote,
     required this.deleteNote,
+    required this.isSelected, 
+    required this.onLongPress, 
+    required this.onTap
   });
   
   @override
@@ -24,7 +28,9 @@ class _NoteTileState extends State<NoteTile> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.primary,
+        color: !widget.isSelected ? 
+        Theme.of(context).colorScheme.primary
+        : Theme.of(context).colorScheme.secondary,
         borderRadius: BorderRadius.circular(8),
       ),
       margin: const EdgeInsets.only(top: 10, left: 25, right: 25),
@@ -33,8 +39,8 @@ class _NoteTileState extends State<NoteTile> {
         ? Text("${widget.note.title.substring(0, 20)}...")
         : Text(widget.note.title),
         subtitle: Text('Edited ${Jiffy.parseFromDateTime(widget.note.lastEdit).MMMd}'),
-        onTap: () => widget.updateNote(widget.note),
-        onLongPress: () => widget.deleteNote(widget.note.id),
+        onTap: () => widget.onTap(),
+        onLongPress: () => widget.onLongPress(),
       ),
     );
   }

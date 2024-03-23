@@ -41,6 +41,7 @@ class _NotesPageState extends State<UpdateNotePage> {
               padding: const EdgeInsets.only(left: 25, right: 25),
               child: TextField(
                 maxLines: null,
+                autofocus: widget.note.title.isEmpty? true : false,
                 style: GoogleFonts.archivo(
                   fontSize: 36,
                   color: Theme.of(context).colorScheme.inversePrimary

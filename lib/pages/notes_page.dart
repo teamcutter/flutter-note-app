@@ -17,6 +17,8 @@ class NotesPage extends StatefulWidget {
 
 class _NotesPageState extends State<NotesPage> {
   
+  final List<Note> _selectedNotes = [];
+
   @override
   void initState() {
     super.initState();
@@ -24,6 +26,10 @@ class _NotesPageState extends State<NotesPage> {
   }
 
   void createNote() {
+    setState(() {
+      _selectedNotes.clear();
+    });
+    
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -54,6 +60,17 @@ class _NotesPageState extends State<NotesPage> {
     context.read<NoteDatabase>().deleteNote(id);
   }
 
+  void toggleSelection(Note note) {
+    setState(() {
+      if (_selectedNotes.contains(note)) {
+        _selectedNotes.remove(note);
+      } else {
+        _selectedNotes.add(note);
+      }
+    });
+  }
+  
+
   @override
   Widget build(BuildContext context) {
 
@@ -68,12 +85,27 @@ class _NotesPageState extends State<NotesPage> {
         backgroundColor: Colors.transparent,
         foregroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(
-          'Notes',
+          _selectedNotes.isNotEmpty ? 
+          'Delete ${_selectedNotes.length} items'
+          : 'Notes',
           style: GoogleFonts.archivo(
             fontSize: 30,
             color: Theme.of(context).colorScheme.inversePrimary
           ),
         ),
+        actions: _selectedNotes.isNotEmpty? [
+          IconButton(
+            onPressed: () {
+              for (var note in _selectedNotes) {
+                deleteNote(note.id);
+              }
+              setState(() {
+                _selectedNotes.clear();
+              });
+            }, 
+            icon: const Icon(Icons.delete)
+          )
+        ] : [],
       ),
       backgroundColor: Theme.of(context).colorScheme.background,
       floatingActionButton: FloatingActionButton(
@@ -87,9 +119,19 @@ class _NotesPageState extends State<NotesPage> {
           itemBuilder: (context, index) { 
             final note = currentNotes[index];
             return NoteTile(
-              note: note, 
-              updateNote: updateNote, 
-              deleteNote: deleteNote
+              note: note,  
+              deleteNote: deleteNote,
+              isSelected: _selectedNotes.contains(note),
+              onLongPress: () {
+                toggleSelection(note);
+              },
+              onTap: () {
+                if (_selectedNotes.isNotEmpty) {
+                  toggleSelection(note);
+                } else {
+                  updateNote(note);
+                }
+              },
           );
         },
       ),
