@@ -8,8 +8,8 @@ class NoteTile extends StatefulWidget {
   final void Function(int) deleteNote;
   final void Function() onLongPress;
   final void Function() onTap;
-  bool isSelected;
-  NoteTile({
+  final bool isSelected;
+  const NoteTile({
     super.key, 
     required this.note, 
     required this.deleteNote,
